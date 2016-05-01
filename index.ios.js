@@ -1,23 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+import NavigationBar from 'react-native-navbar';
 
 import React, {
   AppRegistry,
   Component,
   StyleSheet,
-  StatusBarIOS,
  TouchableHighlight,
   Text,
   Image,
   View
 } from 'react-native';
 
-
-StatusBarIOS.setStyle('light-content');
-
 class bitc extends Component {
+
+ constructor(props) {
+    super(props);
+    this.state = {
+      price: null
+    };
+  }
+
 
   fetchData() {
   fetch('https://blockchain.info/ticker', {method: "GET"})
@@ -33,27 +34,28 @@ class bitc extends Component {
       .catch((error) => {
         console.warn(error);
       }).done();
-
 }
-  constructor(props) {
-    super(props); 
-    this.state = {
-      price: null
-    };
-  }
+ 
 
    componentDidMount() {
     this.fetchData();
   }
-  
-  render() {
+
+
+render() {
     var t = new Date().toLocaleString();
-
- 
-
-    return (
+    var titleConfig = {
+        title: 'BitVal',
+      };
+      var rightButtonConfig = {
+        title: 'Refresh',
+        handler: () => this.forceUpdate(),
+      };
+  return (
       <View style={styles.container}>
-      
+      <NavigationBar
+         title={titleConfig}
+         rightButton={rightButtonConfig} />
       <Text style={styles.ptext}>
           Current Value:
         </Text>
@@ -63,7 +65,6 @@ class bitc extends Component {
         <Text style={styles.date}>
           As of {t}
         </Text>
- 
       </View>
     );
   }
@@ -74,12 +75,12 @@ class bitc extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'center',
+    //alignItems: 'center',
     backgroundColor: '#274A61',
-  }, 
+  },
   icon: {
-    width: 80, 
+    width: 80,
     height: 80,
   },
   ptext: {
